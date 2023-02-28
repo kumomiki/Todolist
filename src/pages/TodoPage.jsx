@@ -48,6 +48,22 @@ const TodoPage = () => {
     setInputValue('');
   };
 
+  const handleKeyDown = () => {
+    // 檢查輸入長度不為0
+    if (inputValue.length === 0) return;
+    setTodos((preTodos) => {
+      return [
+        ...preTodos,
+        {
+          id: Math.random() * 100,
+          title: inputValue,
+          isDone: false,
+        },
+      ];
+    });
+    setInputValue('');
+  }
+
 
 
   return (
@@ -58,6 +74,7 @@ const TodoPage = () => {
         inputValue={inputValue}
         onChange={handleInput}
         onAddTodo={handleTodo}
+        onKeyDown={handleKeyDown}
       />
       <TodoCollection todos={todos} />
       <Footer />

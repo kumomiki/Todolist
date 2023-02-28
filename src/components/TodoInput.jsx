@@ -68,7 +68,7 @@ const StyledAddTodoActionContainer = styled.div`
     }
   }
 `;
-const TodoInput = ({ inputValue, onChange, onKeyDone, onAddTodo }) => {
+const TodoInput = ({ inputValue, onChange, onKeyDown, onAddTodo }) => {
   return (
     <StyledAddTodoContainer
       className={clsx('', { active: inputValue.length > 0 })}
@@ -82,6 +82,11 @@ const TodoInput = ({ inputValue, onChange, onKeyDone, onAddTodo }) => {
           value={inputValue}
           onChange={(e) => {
             onChange?.(e.target.value);
+          }}
+          onKeyDown={(e)=>{
+            if(e.key === 'Enter'){
+              onKeyDown?.()
+            }
           }}
         />
       </StyledInputContainer>
