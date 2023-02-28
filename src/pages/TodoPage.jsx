@@ -34,7 +34,7 @@ const TodoPage = () => {
 
   const handleAddTodo = () => {
     // 檢查輸入長度不為0
-    if(inputValue.length === 0) return
+    if (inputValue.length === 0) return;
     setTodos((preTodos) => {
       return [
         ...preTodos,
@@ -62,9 +62,21 @@ const TodoPage = () => {
       ];
     });
     setInputValue('');
-  }
+  };
 
-
+  const handleToggleDone = (id) => {
+    setTodos((preTodos) => {
+      return preTodos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            isDone: !todo.isDone,
+          };
+        }
+        return todo;
+      });
+    });
+  };
 
   return (
     <div>
@@ -76,7 +88,7 @@ const TodoPage = () => {
         onAddTodo={handleAddTodo}
         onKeyDown={handleKeyDown}
       />
-      <TodoCollection todos={todos} />
+      <TodoCollection todos={todos} onToggleDone={handleToggleDone} />
       <Footer />
     </div>
   );
