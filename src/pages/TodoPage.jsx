@@ -33,6 +33,8 @@ const TodoPage = () => {
   };
 
   const handleTodo = () => {
+    // 檢查輸入長度不為0
+    if(inputValue.length === 0) return
     setTodos((preTodos) => {
       return [
         ...preTodos,
@@ -45,6 +47,8 @@ const TodoPage = () => {
     });
     setInputValue('');
   };
+
+
 
   return (
     <div>
