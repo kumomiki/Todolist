@@ -28,11 +28,11 @@ const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [todos, setTodos] = useState(dummyTodos);
 
-  const handleInput = (value) => {
+  const handleChange = (value) => {
     setInputValue(value);
   };
 
-  const handleTodo = () => {
+  const handleAddTodo = () => {
     // 檢查輸入長度不為0
     if(inputValue.length === 0) return
     setTodos((preTodos) => {
@@ -72,8 +72,8 @@ const TodoPage = () => {
       <Header />
       <TodoInput
         inputValue={inputValue}
-        onChange={handleInput}
-        onAddTodo={handleTodo}
+        onChange={handleChange}
+        onAddTodo={handleAddTodo}
         onKeyDown={handleKeyDown}
       />
       <TodoCollection todos={todos} />
