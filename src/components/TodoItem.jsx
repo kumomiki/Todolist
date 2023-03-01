@@ -136,7 +136,7 @@ const TodoItem = ({ todo, onToggleDone, onChangeMode, onSave, onDelete }) => {
           ref={inputRef}
           className="task-item-body-input"
           onKeyDown={handleKeyDown}
-          value={todo.title}
+          defaultValue={todo.title}
         />
       </div>
       <div className="task-item-action ">
