@@ -139,7 +139,7 @@ const TodoItem = ({ todo, onToggleDone, onChangeMode, onSave, onDelete }) => {
           defaultValue={todo.title}
         />
       </div>
-      <div className="task-item-action ">
+      <div className="task-item-action " onClick={()=> onDelete?.(todo.id)}>
         <button className="btn-reset btn-destroy icon"></button>
       </div>
     </StyledTaskItem>
