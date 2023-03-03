@@ -1,5 +1,6 @@
+import { getTodos } from '../api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const dummyTodos = [
   {
@@ -103,16 +104,28 @@ const TodoPage = () => {
             isEdit: false,
           };
         }
-        return todo
+        return todo;
       });
     });
   };
 
   const handleDelete = (id) => {
     setTodos((preTodos) => {
-      return preTodos.filter((todo) => todo.id !== id)
-    })
-  }
+      return preTodos.filter((todo) => todo.id !== id);
+    });
+  };
+
+useEffect(() => {
+  const getTodosAsync = async () => {
+    try {
+      const todos = await getTodos();
+      setTodos(todos.map((todo) => ({ ...todo, isEdit: false })));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  getTodosAsync();
+}, []);
 
   return (
     <div>
@@ -131,7 +144,7 @@ const TodoPage = () => {
         onSave={handleSave}
         onDelete={handleDelete}
       />
-      <Footer todos={todos}/>
+      <Footer todos={todos} />
     </div>
   );
 };
