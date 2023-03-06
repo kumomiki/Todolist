@@ -93,21 +93,26 @@ const TodoPage = () => {
       });
     });
   };
-
-  const handleSave = ({ id, title }) => {
-    setTodos((preTodos) => {
-      return preTodos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            id,
-            title,
-            isEdit: false,
-          };
-        }
-        return todo;
+  // 編輯狀態更新
+  const handleSave = async ({ id, title }) => {
+    try {
+      await patchTodo({ id, title });
+      setTodos((preTodos) => {
+        return preTodos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              id,
+              title,
+              isEdit: false,
+            };
+          }
+          return todo;
+        });
       });
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDelete = (id) => {
