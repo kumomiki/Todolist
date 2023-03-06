@@ -1,7 +1,6 @@
-import { getTodos } from '../api/todos';
+import { createTodo, getTodos } from '../api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useEffect, useState } from 'react';
-
 
 const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
@@ -11,36 +10,51 @@ const TodoPage = () => {
     setInputValue(value);
   };
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     // 檢查輸入長度不為0
     if (inputValue.length === 0) return;
-    setTodos((preTodos) => {
-      return [
-        ...preTodos,
-        {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false,
-        },
-      ];
-    });
-    setInputValue('');
+
+    try {
+      // create後會更新inputValue和isDone狀態給後端料庫
+      const data = await createTodo({ title: inputValue, isDone: false });
+      setTodos((preTodos) => {
+        return [
+          ...preTodos,
+          {
+            id: data.id,
+            title: data.title,
+            isDone: data.isDone,
+            isEdit: false,
+          },
+        ];
+      });
+      setInputValue('');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleKeyDown = () => {
+  const handleKeyDown = async () => {
     // 檢查輸入長度不為0
     if (inputValue.length === 0) return;
-    setTodos((preTodos) => {
-      return [
-        ...preTodos,
-        {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false,
-        },
-      ];
-    });
-    setInputValue('');
+
+    try {
+      const data = await createTodo({ title: inputValue, isDone: false });
+      setTodos((preTodos) => {
+        return [
+          ...preTodos,
+          {
+            id: data.id,
+            title: data.title,
+            isDone: data.isDone,
+            isEdit: false,
+          },
+        ];
+      });
+      setInputValue('');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleToggleDone = (id) => {
@@ -93,17 +107,17 @@ const TodoPage = () => {
     });
   };
 
-useEffect(() => {
-  const getTodosAsync = async () => {
-    try {
-      const todos = await getTodos();
-      setTodos(todos.map((todo) => ({ ...todo, isEdit: false })));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  getTodosAsync();
-}, []);
+  useEffect(() => {
+    const getTodosAsync = async () => {
+      try {
+        const todos = await getTodos();
+        setTodos(todos.map((todo) => ({ ...todo, isEdit: false })));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTodosAsync();
+  }, []);
 
   return (
     <div>
