@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseURL = 'http://localhost:3001'
+const baseURL = 'http://localhost:3001';
 
 export const getTodos = async () => {
   try {
@@ -12,8 +12,8 @@ export const getTodos = async () => {
 };
 
 export const createTodo = async (payload) => {
+  const { title, isEdit } = payload;
   try {
-    const { title, isEdit} = payload
     const res = await axios.post(`${baseURL}/todos`, { title, isEdit });
     return res.data;
   } catch (error) {
@@ -21,5 +21,14 @@ export const createTodo = async (payload) => {
   }
 };
 
-const patchTodo = () => {}
-const deleteTodo = () => {}
+export const patchTodo = async (payload) => {
+  const { id, title, isDone } = payload;
+  try {
+    const res = await axios.patch(`${baseURL}/todos/${id}`, { title, isDone });
+
+    return res.data;
+  } catch (error) {
+    console.error(`[Patch Todo failed]:`, error);
+  }
+};
+const deleteTodo = () => {};
