@@ -1,4 +1,4 @@
-import { createTodo, getTodos, patchTodo } from '../api/todos';
+import { createTodo, deleteTodo, getTodos, patchTodo } from '../api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useEffect, useState } from 'react';
 
@@ -115,10 +115,15 @@ const TodoPage = () => {
     }
   };
 
-  const handleDelete = (id) => {
-    setTodos((preTodos) => {
-      return preTodos.filter((todo) => todo.id !== id);
-    });
+  const handleDelete = async (id) => {
+    try {
+      await deleteTodo(id);
+      setTodos((preTodos) => {
+        return preTodos.filter((todo) => todo.id !== id);
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

@@ -38,21 +38,6 @@
     {
       "title": "test data.id",
       "id": "-OMK1lf"
-    },
-    {
-      "title": "test keydown",
-      "id": "g7gUodI",
-      "isDone": true
-    },
-    {
-      "title": "test keydone data.id",
-      "id": "76iXMSp",
-      "isDone": true
-    },
-    {
-      "title": "check isDone status-change",
-      "isDone": false,
-      "id": "rI_BAbb"
     }
   ]
 }
