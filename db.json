@@ -32,7 +32,8 @@
     },
     {
       "title": "test botton create",
-      "id": "Ov8gXCQ"
+      "id": "Ov8gXCQ",
+      "isDone": true
     },
     {
       "title": "test data.id",
@@ -44,7 +45,8 @@
     },
     {
       "title": "test keydone data.id",
-      "id": "76iXMSp"
+      "id": "76iXMSp",
+      "isDone": true
     }
   ]
 }

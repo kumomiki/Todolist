@@ -1,4 +1,4 @@
-import { createTodo, getTodos } from '../api/todos';
+import { createTodo, getTodos, patchTodo } from '../api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useEffect, useState } from 'react';
 
@@ -57,18 +57,27 @@ const TodoPage = () => {
     }
   };
 
-  const handleToggleDone = (id) => {
-    setTodos((preTodos) => {
-      return preTodos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            isDone: !todo.isDone,
-          };
-        }
-        return todo;
+  //編輯狀態更新
+  const handleToggleDone = async (id) => {
+    const currentTodo = todos.find((todo) => todo.id === id);
+    // 可以用data變數，如createTodo，也可以不用，因為只是更新該item的toggle狀態
+    try {
+      await patchTodo({ id, isDone: !currentTodo.isDone });
+      setTodos((preTodos) => {
+        return preTodos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              // 若用data接住，則此部分改為!data.isDone
+              isDone: !todo.isDone,
+            };
+          }
+          return todo;
+        });
       });
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleChangeMode = ({ id, isEdit }) => {
