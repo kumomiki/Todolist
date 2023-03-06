@@ -7,7 +7,7 @@
     },
     {
       "title": "Learn to create custom hooks",
-      "isDone": false,
+      "isDone": true,
       "id": 2
     },
     {
@@ -41,12 +41,18 @@
     },
     {
       "title": "test keydown",
-      "id": "g7gUodI"
+      "id": "g7gUodI",
+      "isDone": true
     },
     {
       "title": "test keydone data.id",
       "id": "76iXMSp",
       "isDone": true
+    },
+    {
+      "title": "check isDone status",
+      "isDone": false,
+      "id": "rI_BAbb"
     }
   ]
 }

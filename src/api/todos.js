@@ -12,9 +12,9 @@ export const getTodos = async () => {
 };
 
 export const createTodo = async (payload) => {
-  const { title, isEdit } = payload;
+  const { title, isDone } = payload;
   try {
-    const res = await axios.post(`${baseURL}/todos`, { title, isEdit });
+    const res = await axios.post(`${baseURL}/todos`, { title, isDone });
     return res.data;
   } catch (error) {
     console.error(`[Create Todo failed]:`, error);
