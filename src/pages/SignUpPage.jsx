@@ -20,6 +20,7 @@ const SignUpPage = () => {
     // 先判斷輸入的長度是否符合
     if (username.length === 0) return;
     if (password.length === 0) return;
+    if (email.length === 0) return;
     // 從auth api可獲得success和authToken屬性值，將其取出判斷
     const { success, authToken } = await register({
       username,
