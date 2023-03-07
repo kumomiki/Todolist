@@ -1,8 +1,9 @@
-import { login, register } from '../api/auth';
-import { useState } from 'react';
+import { checkPermission, login, register } from '../api/auth';
+import { useEffect, useState } from 'react';
 import { createContext } from 'react';
 //使用星號（*）來導入一個模組中的所有命名導出
 import * as jwt from 'jsonwebtoken';
+import { useLocation } from 'react-router-dom';
 
 const defaultAuthContext = {
   // 使用者是否登入的判斷依據，預設為 false，若取得後端的有效憑證，則切換為 true
@@ -22,6 +23,37 @@ const AuthContext = createContext(defaultAuthContext);
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
+  // react Hook:useLocation 取得瀏覽器網址列中的路徑資訊
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const checkTokenIsValid = async () => {
+      //先確認authToken是否存在
+      // 取得authToken
+      const authToken = localStorage.getItem('authToken');
+      //若不存在，則return
+      if (!authToken) {
+        setIsAuthenticated(false);
+        setPayload(null);
+        return;
+      }
+      //若authToken存在，驗證是否有效，才能進入todos page
+      const result = await checkPermission(authToken);
+      //若有效則進入 todos 頁面
+      if (result) {
+        //有效再取token
+        setIsAuthenticated(true);
+        const tempPayload = jwt.decode(authToken);
+        setPayload(tempPayload);
+      } else {
+        setIsAuthenticated(false);
+        setPayload(null);
+      }
+    };
+    checkTokenIsValid();
+    // 一旦 pathname 有改變，就需要重新驗證 token
+  }, [pathname]);
+
   return (
     <AuthContext.Provider
       value={{
