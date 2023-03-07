@@ -43,7 +43,7 @@ const SignUpPage = () => {
           label={'密碼'}
           placeholder={'請輸入密碼'}
           value={password}
-          type={password}
+          type='password'
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
       </AuthInputContainer>

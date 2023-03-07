@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const authURL = 'https://todo-list.alphacamp.io/api/auth ';
+const authURL = 'https://todo-list.alphacamp.io/api/auth';
 
 export const login = async ({ username, password }) => {
   try {
@@ -9,6 +9,8 @@ export const login = async ({ username, password }) => {
       username,
       password,
     });
+
+    console.log(data)
     //在data中，若註冊成功可取得一個authToken
     const { authToken } = data;
 
@@ -22,3 +24,4 @@ export const login = async ({ username, password }) => {
     console.error(`[Login failed]:`,error);
   }
 };
+
