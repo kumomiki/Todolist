@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { createContext } from 'react';
 
 const defaultAuthContext = {
@@ -5,12 +6,27 @@ const defaultAuthContext = {
   isAuthenticated: false,
   // 當前使用者相關資料，預設為 null，成功登入後就會有使用者資料
   currentMember: null,
-  // 註冊方法
+  // 影響isAuthenticated是true/false的點，註冊方法
   register: null,
-  // 登入方法
+  // 影響isAuthenticated是true/false的點，登入方法
   login: null,
-  // 登出方法
+  // 影響isAuthenticated是true/false的點，登出方法
   logout: null,
 };
 
 const AuthContext = createContext(defaultAuthContext);
+
+const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [payload, setPayload] = useState(null);
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        currentMember: payload,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
