@@ -25,3 +25,18 @@ export const login = async ({ username, password }) => {
   }
 };
 
+export const register = async({username, password, email}) => {
+  try{
+    const {data} = await axios.post(`${authURL}/register`, {username, password, email})
+    const {authToken} = data
+
+    // 若authToken存在，表示註冊成功
+    if(authToken){
+      return {success: true, ...data}
+    }
+    return data
+  }catch(error){
+    console.error(`[Register failed]:`, error)
+  }
+}
+
