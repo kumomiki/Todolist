@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'contexts/AuthContext';
 import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
@@ -33,11 +33,9 @@ const StyledButton = styled.button`
 `;
 
 const Footer = ({todos}) => {
-  const navigate = useNavigate();
+  const {logout} = useAuth();
   const handleClick = () => {
-    // 需要remove authToken，因為authToken已經存在，所以只要刪除key，就會整個刪除
-    localStorage.removeItem('authToken');
-    navigate('/login')
+    logout()
   }
   return (
     <StyledFooter>
