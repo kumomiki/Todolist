@@ -6,6 +6,8 @@
 * You can press the button or press the keyboard to do the above functions.
 
 # Screen Photo
+![signup-page](./public/screen%20shots/signup_page.png)
+![login-page](./public/screen%20shots/login_page.png)
 ![todo-page](./public/screen%20shots/todo_page.png)
 
 # Environment SetUp
