@@ -4,6 +4,7 @@ import { createContext } from 'react';
 //使用星號（*）來導入一個模組中的所有命名導出
 import * as jwt from 'jsonwebtoken';
 import { useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 
 const defaultAuthContext = {
   // 使用者是否登入的判斷依據，預設為 false，若取得後端的有效憑證，則切換為 true
@@ -19,8 +20,8 @@ const defaultAuthContext = {
 };
 
 const AuthContext = createContext(defaultAuthContext);
-
-const AuthProvider = ({ children }) => {
+export const useAuth = () => useContext(AuthContext);
+export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
   // react Hook:useLocation 取得瀏覽器網址列中的路徑資訊
