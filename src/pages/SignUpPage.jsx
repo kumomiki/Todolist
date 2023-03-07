@@ -8,8 +8,9 @@ import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from 'api/auth';
+import { checkPermission, register } from 'api/auth';
 import Swal from 'sweetalert2';
+import { useEffect } from 'react';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
@@ -49,6 +50,29 @@ const SignUpPage = () => {
       timer: 1000,
     });
   };
+
+  //把驗證 authToken 的流程放在 useEffect 裡，這樣在進入頁面時，就會直接觸發authToken 的檢查
+  //確保使用者只有在擁有有效 token 時才能進入 todos 頁面，提高了安全性。
+  useEffect(() => {
+    const checkTokenIsValid = async () => {
+      //先確認authToken是否存在
+      // 取得authToken
+      const authToken = localStorage.getItem('authToken');
+      //若不存在，則return
+      if (!authToken) {
+        return;
+      }
+      //若authToken存在，驗證是否有效，才能進入todos page
+      const result = await checkPermission(authToken);
+      //若有效則進入 todos 頁面
+      if (result) {
+        navigate('/todos');
+      }
+    };
+    checkTokenIsValid();
+    // 因為有使用到navigate變數，所以須放入（表示有改變時執行）
+  }, [navigate]);
+
   return (
     <AuthContainer>
       <div>
