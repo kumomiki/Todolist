@@ -26,7 +26,10 @@ const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        currentMember: payload,
+        currentMember: payload && {
+          id: payload.sub,
+          name: payload.name,
+        },
         register: async (data) => {
           const { success, authToken } = await register({
             username: data.username,
