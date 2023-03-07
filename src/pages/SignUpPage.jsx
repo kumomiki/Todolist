@@ -8,30 +8,31 @@ import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { checkPermission, register } from 'api/auth';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
+import { useAuth } from 'contexts/AuthContext';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  // 取出需要的狀態與方法
+  const { register, isAuthenticated } = useAuth();
 
   const handleClick = async () => {
     // 先判斷輸入的長度是否符合
     if (username.length === 0) return;
     if (password.length === 0) return;
     if (email.length === 0) return;
-    // 從auth api可獲得success和authToken屬性值，將其取出判斷
-    const { success, authToken } = await register({
+    // 回傳值變成只有一個布林值
+    const success = await register({
       username,
       email,
       password,
     });
     // 若成功，會先暫存在localStorage，並顯示登入成功通知
     if (success) {
-      localStorage.setItem('authToken', authToken);
       Swal.fire({
         title: '註冊成功',
         icon: 'success',
@@ -39,7 +40,6 @@ const SignUpPage = () => {
         position: 'top',
         timer: 1000,
       });
-      navigate('/todos');
       return;
     }
     Swal.fire({
@@ -51,27 +51,12 @@ const SignUpPage = () => {
     });
   };
 
-  //把驗證 authToken 的流程放在 useEffect 裡，這樣在進入頁面時，就會直接觸發authToken 的檢查
-  //確保使用者只有在擁有有效 token 時才能進入 todos 頁面，提高了安全性。
+  //驗證步驟已在AuthContext確認，因此只要isAuthenticated為true，則跳轉至todos page
   useEffect(() => {
-    const checkTokenIsValid = async () => {
-      //先確認authToken是否存在
-      // 取得authToken
-      const authToken = localStorage.getItem('authToken');
-      //若不存在，則return
-      if (!authToken) {
-        return;
-      }
-      //若authToken存在，驗證是否有效，才能進入todos page
-      const result = await checkPermission(authToken);
-      //若有效則進入 todos 頁面
-      if (result) {
-        navigate('/todos');
-      }
-    };
-    checkTokenIsValid();
-    // 因為有使用到navigate變數，所以須放入（表示有改變時執行）
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate('/todos');
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <AuthContainer>
