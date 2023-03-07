@@ -11,16 +11,6 @@
       "id": 2
     },
     {
-      "title": "Learn to use context",
-      "isDone": true,
-      "id": 3
-    },
-    {
-      "title": "Learn to implement auth",
-      "isDone": false,
-      "id": 4
-    },
-    {
       "title": "create this message from postman",
       "isDone": false,
       "id": "6"
