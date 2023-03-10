@@ -14,6 +14,12 @@ function App() {
             <Route path="signup" element={<SignUpPage />} />
             <Route path="todos" element={<TodoPage />} />
             <Route path="*" element={<HomePage />} />
+            <Route
+              path="*"
+              element={
+                <iframe src={`${basename}/404.html`} title="Page not found" />
+              }
+            />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
